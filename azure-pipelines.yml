@@ -29,7 +29,7 @@ variables:
   - name: project
     value: performance
   - name: location
-    vlaue: 'UK South'
+    value: 'UK South'
 
 stages:
 
@@ -46,13 +46,16 @@ stages:
 
 - stage: Plan_Terraform_Code
   displayName: 'Plan Terraform Code'
-  - template: pipeline/terraform-plan.yaml
+  jobs:
+    - job:
+      steps:
+      - template: pipeline/terraform-plan.yaml
         parameters:
           environment: ${{ parameters.environment }}
           location: ${{ variables.location }}
           project: ${{ variables.project }}
           builtFrom: $(Build.Repository.Name)
           tfversion: ${{ variables.terraformVersion }}
-          serviceConnection: environmentServiceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
+          environmentServiceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
           tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
           tfStateStorageAccountName: vhinfracore${{ env.name }}tf
