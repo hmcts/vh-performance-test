@@ -1,0 +1,58 @@
+trigger: none
+
+pr: 
+  - master
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: hmcts/azure-devops-templates
+      ref: refs/heads/master 
+      endpoint: hmcts
+
+parameters:
+  - name: environment
+    displayName: "Release To"
+    type: string
+    default: sbox
+    values:
+    - sbox
+    - dev
+    - test
+    - ithc
+
+variables:
+  - name: tfversion
+    value: "1.1.0"
+  - group: hv-perf-test
+  - name: project
+    value: performance
+  - name: location
+    vlaue: 'UK South'
+
+stages:
+
+- stage: Validate_Terraform_Code
+  displayName: 'Validate Terraform Code'
+  jobs:
+    - job: Validate_Terraform_Code
+      displayName: Validate Terraform Code
+      steps:
+      - template: pipeline/terraform-validate.yaml
+        parameters:
+          tfversion: ${{ variables.tfversion }}
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+
+- stage: Plan_Terraform_Code
+  displayName: 'Plan Terraform Code'
+  - template: pipeline/terraform-plan.yaml
+        parameters:
+          environment: ${{ parameters.environment }}
+          location: ${{ variables.location }}
+          project: ${{ variables.project }}
+          builtFrom: $(Build.Repository.Name)
+          tfversion: ${{ variables.terraformVersion }}
+          serviceConnection: environmentServiceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
+          tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
+          tfStateStorageAccountName: vhinfracore${{ env.name }}tf
