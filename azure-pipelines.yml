@@ -56,6 +56,7 @@ stages:
           project: ${{ variables.project }}
           builtFrom: $(Build.Repository.Name)
           tfversion: ${{ variables.terraformVersion }}
-          environmentServiceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+          serviceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
           tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
           tfStateStorageAccountName: vhinfracore${{ parameters.environment }}tf
