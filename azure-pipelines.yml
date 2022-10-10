@@ -23,7 +23,7 @@ parameters:
     - ithc
 
 variables:
-  - group: hv-perf-test
+  - group: vh-perf-test
 
 stages:
 
@@ -48,6 +48,7 @@ stages:
           environment: ${{ parameters.environment }}
           location: ${{ variables.location }}
           project: ${{ variables.project }}
+          product: ${{ variables.product }}
           builtFrom: $(Build.Repository.Name)
           tfversion: ${{ variables.terraformVersion }}
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
