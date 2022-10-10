@@ -68,11 +68,11 @@ steps:
     inputs:
       rootFolderOrFile: '$(System.DefaultWorkingDirectory)/terraform'
       archiveType: zip
-      archiveFile: '$(Build.ArtifactStagingDirectory)/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}-${{ parameters.stack }}.zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.zip'
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Terraform Artifacts'
     inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}-${{ parameters.stack }}.zip'
+      targetPath: '$(Build.ArtifactStagingDirectory)/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.zip'
       publishLocation: pipeline
-      artifact: 'tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}-${{ parameters.stack }}'
+      artifact: 'tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}'

@@ -23,13 +23,7 @@ parameters:
     - ithc
 
 variables:
-  - name: tfversion
-    value: "1.1.0"
   - group: hv-perf-test
-  - name: project
-    value: performance
-  - name: location
-    value: 'UK South'
 
 stages:
 
