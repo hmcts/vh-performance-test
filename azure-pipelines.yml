@@ -58,4 +58,4 @@ stages:
           tfversion: ${{ variables.terraformVersion }}
           environmentServiceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
           tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
-          tfStateStorageAccountName: vhinfracore${{ env.name }}tf
+          tfStateStorageAccountName: vhinfracore${{ parameters.environment }}tf
