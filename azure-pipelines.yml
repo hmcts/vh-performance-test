@@ -35,7 +35,7 @@ stages:
       steps:
       - template: pipeline/terraform-validate.yaml
         parameters:
-          tfversion: $[variables.tfversion]
+          tfversion: $(tfversion)
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
 
 - stage: Plan_Terraform_Code
