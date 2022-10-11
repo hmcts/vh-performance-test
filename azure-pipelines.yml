@@ -28,7 +28,7 @@ variables:
 stages:
 
 - stage: Validate_Terraform_Code
-  displayName: 'Validate Terraform Code'
+  displayName: 'Validate ${{ parameters.environment }} Terraform Code'
   jobs:
     - job: Validate_Terraform_Code
       displayName: Validate Terraform Code
@@ -36,10 +36,10 @@ stages:
       - template: pipeline/terraform-validate.yaml
         parameters:
           tfversion: $(tfversion)
-          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infa'
 
 - stage: Plan_Terraform_Code
-  displayName: 'Plan Terraform Code'
+  displayName: 'Plan ${{ parameters.environment }} Terraform Code'
   jobs:
     - job:
       steps:
@@ -51,7 +51,7 @@ stages:
           product: $(product)
           builtFrom: $(Build.Repository.Name)
           tfversion: $(tfversion)
-          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
           serviceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
           tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
           tfStateStorageAccountName: vhinfracore${{ parameters.environment }}tf
