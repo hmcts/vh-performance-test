@@ -29,6 +29,12 @@ parameters:
   - name: builtFrom
     type: string
   
+  - name: vm_user
+    type: string
+
+  - name: vm_password
+    type: string
+  
 steps:
   
   - task: TerraformInstaller@0
@@ -64,6 +70,8 @@ steps:
             -var project=${{ parameters.project }}
             -var builtFrom=${{ parameters.builtFrom }}
             -var product=${{ parameters.product }}
+            -var vm_user=${{ parameters.vm_user }}
+            -var vm_password=${{ parameters.vm_password }}
             -var-file $(System.DefaultWorkingDirectory)/terraform/vars/${{ parameters.environment }}.tfvars
 
   - task: ArchiveFiles@2

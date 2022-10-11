@@ -37,6 +37,15 @@ variable "vm_instance_count" {
   default = 1
 }
 
+variable "vm_user" {
+  type = string
+}
+
+variable "vm_password" {
+  type = string
+}
+
+
 # Need to update the following
 variable "workspace_to_address_space_map" {
   type = map(string)

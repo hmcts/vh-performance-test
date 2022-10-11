@@ -2,7 +2,7 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "perf_test" {
-  name                = "perf_test_keyvault"
+  name                = "perftestkeyvault"
   location            = azurerm_resource_group.perf_test.location
   resource_group_name = azurerm_resource_group.perf_test.name
 

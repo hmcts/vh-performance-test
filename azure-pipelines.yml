@@ -51,6 +51,8 @@ stages:
           product: $(product)
           builtFrom: $(Build.Repository.Name)
           tfversion: $(tfversion)
+          vm_user: $(vm_user)
+          vm_password: $(vm_password)
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
           serviceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
           tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf

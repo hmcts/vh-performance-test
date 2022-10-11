@@ -13,8 +13,8 @@ resource "azurerm_windows_virtual_machine" "perf_test" {
   location            = azurerm_resource_group.perf_test.location
 
   size               = var.vm_size
-  admin_username     = "" #AKV
-  admin_password     = "" #AKV
+  admin_username     = var.vm_user
+  admin_password     = var.vm_password
   provision_vm_agent = true
 
   network_interface_ids = [
@@ -36,4 +36,10 @@ resource "azurerm_windows_virtual_machine" "perf_test" {
 
   tags = local.common_tags
 
+}
+
+resource "azurerm_key_vault_secret" "vm" {
+  name         = "vm-password"
+  value        = var.vm_password
+  key_vault_id = azurerm_key_vault.perf_test.id
 }
