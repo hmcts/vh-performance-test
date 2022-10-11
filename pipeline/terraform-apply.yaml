@@ -1,0 +1,75 @@
+parameters:
+  - name: tfversion
+    type: string
+
+  - name: workingDirectory
+    type: string
+
+  - name: serviceConnection
+    type: string
+
+  - name: tfStateResourceGroup
+    type: string
+
+  - name: location
+    type: string
+
+  - name: tfStateStorageAccountName
+    type: string
+
+  - name: project
+    type: string
+
+  - name: product
+    type: string
+
+  - name: environment
+    type: string
+
+  - name: builtFrom
+    type: string
+  
+  - name: vm_user
+    type: string
+
+  - name: vm_password
+    type: string
+  
+steps:
+  
+  - task: TerraformInstaller@0
+    displayName: 'Install Terraform ${{ parameters.tfversion }}'
+    inputs:
+          terraformVersion: ${{ parameters.tfversion }}
+
+  - task: ExtractFiles@1
+    displayName: 'Extract Terraform Artifacts'
+    inputs:
+      archiveFilePatterns: '$(Pipeline.Workspace)/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.zip'
+      destinationFolder: '$(Pipeline.Workspace)/'
+      cleanDestinationFolder: false
+      overwriteExistingFiles: true
+
+  - task: TerraformCLI@0
+    displayName: Terraform Init
+    inputs:
+          command: init
+          terraformVersion: ${{ parameters.tfversion }}
+          workingDirectory: '${{ parameters.workingDirectory }}'
+          backendType: azurerm
+          backendServiceArm: ${{ parameters.serviceConnection }}
+          backendAzureRmResourceGroupName: ${{ lower(parameters.tfStateResourceGroup) }}
+          backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+          backendAzureRmStorageAccountName:  ${{ lower(parameters.tfStateStorageAccountName) }}
+          backendAzureRmStorageAccountSku: Standard_LRS
+          backendAzureRmContainerName: tfstate
+          backendAzureRmKey: '${{ parameters.location }}/${{ parameters.project }}/${{ lower(parameters.environment) }}/terraform.tfstate'
+
+  - task: TerraformCLI@0
+    displayName: Terraform Apply
+    inputs:
+          command: apply
+          terraformVersion: ${{ parameters.tfversion }}
+          workingDirectory: '${{ parameters.workingDirectory }}'
+          environmentServiceName: ${{ parameters.serviceConnection }}
+          commandOptions: '-input=false $(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.tfplan'
