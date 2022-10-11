@@ -31,11 +31,11 @@ steps:
           terraformVersion: ${{ parameters.tfversion }}
 
   - task: DownloadBuildArtifacts@1
-        inputs:
-          buildType: 'current'
-          downloadType: 'single'
-          artifactName: 'tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}'
-          downloadPath: '$(System.ArtifactsDirectory)'
+    inputs:
+      buildType: 'current'
+      downloadType: 'single'
+      artifactName: 'tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}'
+      downloadPath: '$(System.ArtifactsDirectory)'
 
   - task: ExtractFiles@1
     displayName: 'Extract Terraform Artifacts'
