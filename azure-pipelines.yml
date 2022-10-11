@@ -46,11 +46,11 @@ stages:
       - template: pipeline/terraform-plan.yaml
         parameters:
           environment: ${{ parameters.environment }}
-          location: ${{ variables.location }}
-          project: ${{ variables.project }}
-          product: ${{ variables.product }}
+          location: $(location)
+          project: $(project)
+          product: $(product)
           builtFrom: $(Build.Repository.Name)
-          tfversion: ${{ variables.terraformVersion }}
+          tfversion: $(tfversion)
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
           serviceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
           tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
