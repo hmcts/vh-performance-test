@@ -67,4 +67,4 @@ steps:
           terraformVersion: ${{ parameters.tfversion }}
           workingDirectory: '${{ parameters.workingDirectory }}'
           environmentServiceName: ${{ parameters.serviceConnection }}
-          commandOptions: '-input=false $(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.tfplan'
+          commandOptions: '-input=false /infra/$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.tfplan'
