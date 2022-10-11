@@ -41,7 +41,7 @@ steps:
     displayName: 'Extract Terraform Artifacts'
     inputs:
       archiveFilePatterns: '$(System.ArtifactsDirectory)/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.zip'
-      destinationFolder: '$(parameters.workingDirectory)/'
+      destinationFolder: '$(System.ArtifactsDirectory)/'
       cleanDestinationFolder: false
       overwriteExistingFiles: true
 
@@ -65,6 +65,6 @@ steps:
     inputs:
           command: apply
           terraformVersion: ${{ parameters.tfversion }}
-          workingDirectory: '${{ parameters.workingDirectory }}'
+          workingDirectory: '$(System.ArtifactsDirectory)'
           environmentServiceName: ${{ parameters.serviceConnection }}
           commandOptions: '-input=false /infra/$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.tfplan'
