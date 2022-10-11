@@ -20,19 +20,7 @@ parameters:
   - name: project
     type: string
 
-  - name: product
-    type: string
-
   - name: environment
-    type: string
-
-  - name: builtFrom
-    type: string
-  
-  - name: vm_user
-    type: string
-
-  - name: vm_password
     type: string
   
 steps:
