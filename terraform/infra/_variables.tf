@@ -19,6 +19,10 @@ variable "product" {
   type = string
 }
 
+variable "project" {
+  type = string
+}
+
 variable "builtFrom" {
   type = string
 }
