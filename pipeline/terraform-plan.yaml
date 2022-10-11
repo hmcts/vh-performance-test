@@ -64,7 +64,7 @@ steps:
             -var project=${{ parameters.project }}
             -var builtFrom=${{ parameters.builtFrom }}
             -var product=${{ parameters.product }}
-            -var-file $(System.DefaultWorkingDirectory)/terraform/vars/$(env).tfvars
+            -var-file $(System.DefaultWorkingDirectory)/terraform/vars/${{ parameters.environment }}.tfvars
 
   - task: ArchiveFiles@2
     displayName: 'Zip Terraform Files'
