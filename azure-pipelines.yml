@@ -40,6 +40,7 @@ stages:
 
 - stage: Plan_Terraform_Code
   displayName: 'Plan ${{ parameters.environment }} Terraform Code'
+  dependsOn: Validate_Terraform_Code
   jobs:
     - job:
       steps:
@@ -60,6 +61,7 @@ stages:
 
 - stage: Apply_Terraform_Code
   displayName: 'Apply ${{ parameters.environment }} Terraform Code'
+  dependsOn: Plan_Terraform_Code
   jobs:
     - job:
       steps:

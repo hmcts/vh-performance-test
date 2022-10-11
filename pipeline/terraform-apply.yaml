@@ -30,11 +30,18 @@ steps:
     inputs:
           terraformVersion: ${{ parameters.tfversion }}
 
+  - task: DownloadBuildArtifacts@1
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}'
+          downloadPath: '$(System.ArtifactsDirectory)'
+
   - task: ExtractFiles@1
     displayName: 'Extract Terraform Artifacts'
     inputs:
-      archiveFilePatterns: '$(Pipeline.Workspace)/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.zip'
-      destinationFolder: '$(Pipeline.Workspace)/'
+      archiveFilePatterns: '$(System.ArtifactsDirectory)/tfplan-$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.zip'
+      destinationFolder: '$(parameters.workingDirectory)/'
       cleanDestinationFolder: false
       overwriteExistingFiles: true
 
