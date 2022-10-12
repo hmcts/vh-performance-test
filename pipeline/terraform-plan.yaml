@@ -47,7 +47,7 @@ steps:
     inputs:
           command: init
           terraformVersion: ${{ parameters.tfversion }}
-          workingDirectory: '$(System.DefaultWorkingDirectory)'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
           backendType: azurerm
           backendServiceArm: ${{ parameters.serviceConnection }}
           backendAzureRmResourceGroupName: ${{ lower(parameters.tfStateResourceGroup) }}
