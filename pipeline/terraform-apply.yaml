@@ -50,7 +50,7 @@ steps:
     inputs:
           command: init
           terraformVersion: ${{ parameters.tfversion }}
-          workingDirectory: '${{ parameters.workingDirectory }}'
+          workingDirectory: '$(System.ArtifactsDirectory)'
           backendType: azurerm
           backendServiceArm: ${{ parameters.serviceConnection }}
           backendAzureRmResourceGroupName: ${{ lower(parameters.tfStateResourceGroup) }}
@@ -68,3 +68,4 @@ steps:
           workingDirectory: '$(System.ArtifactsDirectory)'
           environmentServiceName: ${{ parameters.serviceConnection }}
           commandOptions: '-input=false $(System.ArtifactsDirectory)/infra/$(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.tfplan'
+
