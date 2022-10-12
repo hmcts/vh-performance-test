@@ -22,4 +22,3 @@ resource "azurerm_resource_group" "perf_test" {
   location = var.location
   tags     = local.common_tags
 }
-
