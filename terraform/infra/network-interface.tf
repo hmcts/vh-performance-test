@@ -2,7 +2,7 @@
 resource "azurerm_network_interface" "perf_test" {
   count = var.vm_instance_count
 
-  name = "${var.service_name}_${count.index + 1}"
+  name = "${local.service_name}_${count.index + 1}"
 
   resource_group_name = azurerm_resource_group.perf_test.name
   location            = azurerm_resource_group.perf_test.location

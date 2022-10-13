@@ -1,6 +1,6 @@
 
 resource "azurerm_virtual_network" "perf_test" {
-  name          = var.service_name
+  name          = local.service_name
   address_space = var.address_space
 
   resource_group_name = azurerm_resource_group.perf_test.name
@@ -24,7 +24,7 @@ resource "azurerm_subnet_network_security_group_association" "perf_test" {
 }
 
 resource "azurerm_network_security_group" "perf_test" {
-  name = var.service_name
+  name = local.service_name
 
   resource_group_name = azurerm_resource_group.perf_test.name
   location            = azurerm_resource_group.perf_test.location

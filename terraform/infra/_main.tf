@@ -18,7 +18,7 @@ provider "azurerm" {
 ### Resorce Group
 
 resource "azurerm_resource_group" "perf_test" {
-  name     = var.service_name
+  name     = local.service_name
   location = var.location
   tags     = local.common_tags
 }

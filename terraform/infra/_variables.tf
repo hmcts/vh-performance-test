@@ -1,7 +1,7 @@
 
-variable "service_name" {
+variable "service_name_prefix" {
   type        = string
-  default     = "pref-test"
+  default     = "vh-perf-test"
   description = "The name of the service"
 }
 
@@ -49,25 +49,11 @@ variable "vm_password" {
   type = string
 }
 
-
-# Need to update the following
-variable "workspace_to_address_space_map" {
-  type = map(string)
-  default = {
-    prod = "10.50.11.16/28"
-    stg  = "10.50.10.112/28"
-    dev  = "10.100.198.64/28"
-    demo = "10.254.0.224/28"
-    test = "10.100.197.208/28"
-    sbox = "10.100.198.32/28"
-    ithc = "10.100.197.224/28"
-  }
-}
-
 #### LOCALS
 
 locals {
   common_tags = module.ctags.common_tags
+  service_name = "${var.service_name_prefix}-${var.environment}"
 }
 
 module "ctags" {

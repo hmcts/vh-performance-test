@@ -8,7 +8,7 @@ locals {
 resource "azurerm_windows_virtual_machine" "perf_test" {
   count = var.vm_instance_count
 
-  name                = "${var.service_name}-${count.index + 1}"
+  name                = "${local.service_name}-${count.index + 1}"
   resource_group_name = azurerm_resource_group.perf_test.name
   location            = azurerm_resource_group.perf_test.location
 
@@ -24,7 +24,7 @@ resource "azurerm_windows_virtual_machine" "perf_test" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    name                 = "${var.service_name}-${count.index + 1}-OsDisk"
+    name                 = "${local.service_name}-${count.index + 1}-OsDisk"
   }
 
   source_image_reference {

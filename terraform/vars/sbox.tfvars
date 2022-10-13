@@ -1,5 +1,4 @@
 
-service_name      = "perf-test"
 location          = "UK South"
 address_space     = []
 vm_size           = ""
