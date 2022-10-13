@@ -6,7 +6,7 @@ locals {
 resource "azurerm_virtual_machine_extension" "perf_test" {
   count = var.vm_instance_count
 
-  name                 = "AzureDevOpsAgent-${count.index + 1}"
+  name                 = "chocoInstall-${count.index + 1}"
   virtual_machine_id   = azurerm_windows_virtual_machine.perf_test[count.index].id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
@@ -17,4 +17,6 @@ resource "azurerm_virtual_machine_extension" "perf_test" {
        "commandToExecute": "${local.winscript}"
     }
 PSETTINGS
+
+  tags = local.common_tagss
 }
