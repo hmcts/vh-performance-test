@@ -1,19 +1,78 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
 
-trigger:
-- master
+trigger: none
 
-pool:
-  vmImage: ubuntu-latest
+pr: 
+  - master
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: hmcts/azure-devops-templates
+      ref: refs/heads/master 
+      endpoint: hmcts
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+parameters:
+  - name: environment
+    displayName: "Release To"
+    type: string
+    default: sbox
+    values:
+    - sbox
+    - dev
+    - test
+    - ithc
+
+variables:
+  - group: vh-perf-test
+
+stages:
+
+- stage: Validate_Terraform_Code
+  displayName: 'Validate ${{ parameters.environment }} Terraform Code'
+  jobs:
+    - job: Validate_Terraform_Code
+      displayName: Validate Terraform Code
+      steps:
+      - template: pipeline/terraform-validate.yaml
+        parameters:
+          tfversion: $(tfversion)
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
+
+- stage: Plan_Terraform_Code
+  displayName: 'Plan ${{ parameters.environment }} Terraform Code'
+  dependsOn: Validate_Terraform_Code
+  jobs:
+    - job:
+      steps:
+      - template: pipeline/terraform-plan.yaml
+        parameters:
+          environment: ${{ parameters.environment }}
+          location: $(location)
+          project: $(project)
+          product: $(product)
+          builtFrom: $(Build.Repository.Name)
+          tfversion: $(tfversion)
+          vm_user: $(vm_user)
+          vm_password: $(vm_password)
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
+          serviceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
+          tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
+          tfStateStorageAccountName: vhinfracore${{ parameters.environment }}tf
+
+- stage: Apply_Terraform_Code
+  displayName: 'Apply ${{ parameters.environment }} Terraform Code'
+  dependsOn: Plan_Terraform_Code
+  jobs:
+    - job:
+      steps:
+      - template: pipeline/terraform-apply.yaml
+        parameters:
+          environment: ${{ parameters.environment }}
+          location: $(location)
+          project: $(project)
+          tfversion: $(tfversion)
+          workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
+          serviceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
+          tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
+          tfStateStorageAccountName: vhinfracore${{ parameters.environment }}tf
