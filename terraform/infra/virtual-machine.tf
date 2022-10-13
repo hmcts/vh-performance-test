@@ -16,6 +16,7 @@ resource "azurerm_windows_virtual_machine" "perf_test" {
   admin_username     = var.vm_user
   admin_password     = var.vm_password
   provision_vm_agent = true
+  computer_name      = "{var.service_name_prefix}-${count.index + 1}"
 
   network_interface_ids = [
     azurerm_network_interface.perf_test[count.index].id,
