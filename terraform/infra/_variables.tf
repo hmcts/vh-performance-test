@@ -52,7 +52,7 @@ variable "vm_password" {
 #### LOCALS
 
 locals {
-  common_tags = module.ctags.common_tags
+  common_tags  = module.ctags.common_tags
   service_name = "${var.service_name_prefix}-${var.environment}"
 }
 
