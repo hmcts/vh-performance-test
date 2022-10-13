@@ -18,5 +18,5 @@ resource "azurerm_virtual_machine_extension" "perf_test" {
     }
 PSETTINGS
 
-  tags = local.common_tagss
+  tags = local.common_tags
 }
