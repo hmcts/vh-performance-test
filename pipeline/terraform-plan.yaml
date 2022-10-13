@@ -65,7 +65,7 @@ steps:
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
           environmentServiceName: ${{ parameters.serviceConnection }}
           commandOptions: >
-            -out $(Build.BuildId)-${{ parameters.project }}-${{ lower(parameters.environment) }}.tfplan
+            -out $(Build.BuildId).tfplan
             -var environment=${{ lower(parameters.environment) }}
             -var project=${{ parameters.project }}
             -var builtFrom=${{ parameters.builtFrom }}
