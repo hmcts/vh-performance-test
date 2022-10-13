@@ -52,6 +52,15 @@ steps:
       backendAzureRmContainerName: tfstate
       backendAzureRmKey: '${{ parameters.location }}/${{ parameters.project }}/${{ lower(parameters.environment) }}/terraform.tfstate'
 
+  - script: |
+      cd $(System.DefaultWorkingDirectory)
+      ls
+      cd $(System.DefaultWorkingDirectory)/terraform
+      ls
+      cd $(System.DefaultWorkingDirectory)/terraform/infra
+      ls
+      
+
   - task: TerraformCLI@0
     displayName: Terraform Apply
     inputs:
