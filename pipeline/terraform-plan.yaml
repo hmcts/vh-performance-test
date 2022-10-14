@@ -57,6 +57,21 @@ steps:
           backendAzureRmContainerName: tfstate
           backendAzureRmKey: '${{ parameters.location }}/${{ parameters.project }}/${{ lower(parameters.environment) }}/terraform.tfstate'
 
+  - task: AzureCLI@2
+    displayName: 'GlobalNetworkPeering Credentials'
+    name: GlobalNetworkPeering
+    inputs:
+      azureSubscription: 'GlobalNetworkPeering'
+      scriptType: 'pscore'
+      scriptLocation: 'inlineScript'
+      addSpnToEnvironment: true
+      InlineScript: |
+        Write-Host "##vso[task.setvariable variable=GNP_CLIENT_ID;isOutput=true]$($env:servicePrincipalId)"
+        Write-Host "##vso[task.setvariable variable=GNP_CLIENT_SECRET;isOutput=true]$($env:servicePrincipalKey)"
+        Write-Host "##vso[task.setvariable variable=GNP_TENANT_ID;isOutput=true]$($env:tenantId)"
+        $subscriptionId = az account show --query id -o tsv
+        Write-Host "##vso[task.setvariable variable=GNP_SUBSCRIPTION_ID;isOutput=true]$subscriptionId"
+
   - task: TerraformCLI@0
     displayName: Terraform Plan
     inputs:
@@ -72,6 +87,9 @@ steps:
             -var product=${{ parameters.product }}
             -var vm_user=${{ parameters.vm_user }}
             -var vm_password=${{ parameters.vm_password }}
+            -var network_client_id=${GNP_CLIENT_ID}
+            -var network_client_secret=${GNP_CLIENT_SECRET}
+            -var network_tenant_id=${GNP_TENANT_ID}
             -var-file $(System.DefaultWorkingDirectory)/terraform/vars/${{ parameters.environment }}.tfvars
 
   - task: ArchiveFiles@2
