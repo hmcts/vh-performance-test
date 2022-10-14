@@ -105,6 +105,7 @@ steps:
             -var vm_user=${{ parameters.vm_user }}
             -var vm_password=${{ parameters.vm_password }}
             -var-file $(System.DefaultWorkingDirectory)/terraform/vars/${{ parameters.environment }}.tfvars
+            $(variableName)
 
   - task: ArchiveFiles@2
     displayName: 'Create Plan Artifact'
