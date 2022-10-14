@@ -31,6 +31,7 @@ variable "address_space" {
   type = list(any)
 }
 
+# VM Stuff
 variable "vm_size" {
   type    = string
   default = ""
@@ -49,16 +50,18 @@ variable "vm_password" {
   type = string
 }
 
-#### LOCALS
-
-locals {
-  common_tags  = module.ctags.common_tags
-  service_name = "${var.service_name_prefix}-${var.environment}"
+# Networking Client Details
+variable "network_client_id" {
+  description = "Client ID of the GlobalNetworkPeering SP"
+  type        = string
+}
+variable "network_client_secret" {
+  description = "Client Secret of the GlobalNetworkPeering SP"
+  type        = string
+  sensitive   = true
+}
+variable "network_tenant_id" {
+  description = "Client Tenant ID of the GlobalNetworkPeering SP"
+  type        = string
 }
 
-module "ctags" {
-  source      = "git::https://github.com/hmcts/terraform-module-common-tags.git?ref=master"
-  environment = var.environment
-  product     = var.product
-  builtFrom   = var.builtFrom
-}
