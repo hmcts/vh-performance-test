@@ -1,5 +1,4 @@
 
-
 location          = "UK South"
 address_space     = ["10.50.10.96/28"]
 vm_size           = "Standard_D8_v5"
