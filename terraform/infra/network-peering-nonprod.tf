@@ -14,13 +14,13 @@ resource "azurerm_virtual_network_peering" "vnet_to_uks_nonprod_hub" {
   allow_forwarded_traffic   = true
 }
 
-resource "azurerm_virtual_network_peering" "vpn_hub_to_vnet" {
-  provider = azurerm.peering_target_vpn
-  for_each = toset(local.peering_vpn_vnets)
+resource "azurerm_virtual_network_peering" "uks_nonprod_hub_to_vnet" {
+  provider = azurerm.peering_target_nonprod
+  for_each = toset(local.peering_nonprod_vnets)
 
-  name                      = azurerm_virtual_network.wowza.name
-  resource_group_name       = local.peering_vpn_resourcegroup
+  name                      = azurerm_virtual_network.perf_test.name
+  resource_group_name       = each.value
   virtual_network_name      = each.value
-  remote_virtual_network_id = azurerm_virtual_network.wowza.id
+  remote_virtual_network_id = azurerm_virtual_network.perf_test.id
   allow_forwarded_traffic   = true
-}
+} 

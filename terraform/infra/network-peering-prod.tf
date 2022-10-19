@@ -4,6 +4,7 @@ locals {
 }
 
 resource "azurerm_virtual_network_peering" "vnet_to_uks_prod_hub" {
+  provider                  = azurerm.peering_client
   for_each                  = toset(local.peering_prod_vnets)
   name                      = each.value
   resource_group_name       = azurerm_resource_group.perf_test.name
@@ -11,3 +12,14 @@ resource "azurerm_virtual_network_peering" "vnet_to_uks_prod_hub" {
   remote_virtual_network_id = "/subscriptions/${local.peering_prod_subscription}/resourceGroups/${each.value}/providers/Microsoft.Network/virtualNetworks/${each.value}"
   allow_forwarded_traffic   = true
 }
+
+resource "azurerm_virtual_network_peering" "uks_prod_hub_to_vnet" {
+  provider                  = azurerm.peering_target_prod
+  for_each                  = toset(local.peering_prod_vnets)
+  name                      = azurerm_virtual_network.perf_test.name
+  resource_group_name       = each.value
+  virtual_network_name      = each.value
+  remote_virtual_network_id = azurerm_virtual_network.perf_test.id
+  allow_forwarded_traffic   = true
+}
+ 
