@@ -22,6 +22,9 @@ resource "azurerm_windows_virtual_machine" "perf_test" {
     azurerm_network_interface.perf_test[count.index].id,
   ]
 
+  identity {
+    type = "SystemAssigned"
+  }
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"

@@ -19,4 +19,21 @@ resource "azurerm_virtual_machine_extension" "perf_test" {
 PSETTINGS
 
   tags = local.common_tags
+
+  depends_on = [
+    azurerm_virtual_machine_extension.AADLoginForWindows
+  ]
+
+}
+
+resource "azurerm_virtual_machine_extension" "AADLoginForWindows" {
+  count = var.vm_instance_count
+
+  name                       = "AADLoginForWindows-${count.index + 1}"
+  virtual_machine_id         = azurerm_windows_virtual_machine.perf_test[count.index].id
+  publisher                  = "Microsoft.Azure.ActiveDirectory"
+  type                       = "AADLoginForWindows"
+  type_handler_version       = "1.0"
+  auto_upgrade_minor_version = true
+
 }

@@ -17,10 +17,9 @@ parameters:
     type: string
     default: sbox
     values:
-    - sbox
     - dev
     - test
-    - ithc
+    - stg
 
 variables:
   - group: vh-perf-test

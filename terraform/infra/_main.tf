@@ -13,6 +13,42 @@ terraform {
 
 provider "azurerm" {
   features {}
+  alias           = "peering_client"
+  subscription_id = data.azurerm_client_config.current.subscription_id
+  client_id       = var.network_client_id
+  client_secret   = var.network_client_secret
+  tenant_id       = var.network_tenant_id
+}
+
+provider "azurerm" {
+  features {}
+  alias           = "peering_target_vpn"
+  subscription_id = local.peering_vpn_subscription
+  client_id       = var.network_client_id
+  client_secret   = var.network_client_secret
+  tenant_id       = var.network_tenant_id
+}
+
+provider "azurerm" {
+  features {}
+  alias           = "peering_target_prod"
+  subscription_id = local.peering_prod_subscription
+  client_id       = var.network_client_id
+  client_secret   = var.network_client_secret
+  tenant_id       = var.network_tenant_id
+}
+
+provider "azurerm" {
+  features {}
+  alias           = "peering_target_nonprod"
+  subscription_id = local.peering_nonprod_subscription
+  client_id       = var.network_client_id
+  client_secret   = var.network_client_secret
+  tenant_id       = var.network_tenant_id
+}
+
+provider "azurerm" {
+  features {}
 }
 
 ### Resorce Group
