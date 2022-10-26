@@ -12,22 +12,21 @@ resources:
       endpoint: hmcts
 
 parameters:
-  - name: environment
-    displayName: "Release To"
-    type: string
-    default: sbox
-    values:
-    - dev
-    - test
-    - stg
+  - name: environments
+    type: object
+    default: 
+      - Dev
+      - Stg
 
 variables:
   - group: vh-perf-test
 
 stages:
 
+####################################################
+# Terraform CI. ####################################
 - stage: Validate_Terraform_Code
-  displayName: 'Validate ${{ parameters.environment }} Terraform Code'
+  displayName: 'Terraform CI'
   jobs:
     - job: Validate_Terraform_Code
       displayName: Validate Terraform Code
@@ -37,15 +36,18 @@ stages:
           tfversion: $(tfversion)
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
 
-- stage: Plan_Terraform_Code
-  displayName: 'Plan ${{ parameters.environment }} Terraform Code'
-  dependsOn: Validate_Terraform_Code
-  jobs:
+####################################################
+# Terraform Plan. ##################################
+- ${{ each env in parameters.environments }}:
+  - stage: Plan_Terraform_Code_${{ env}}
+    displayName: "Terraform Plan ${{ env }}"
+    dependsOn: Validate_Terraform_Code
+    jobs:
     - job:
       steps:
       - template: pipeline/terraform-plan.yaml
         parameters:
-          environment: ${{ parameters.environment }}
+          environment: ${{ lower(env) }}
           location: $(location)
           project: $(project)
           product: $(product)
@@ -54,23 +56,38 @@ stages:
           vm_user: $(vm_user)
           vm_password: $(vm_password)
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
-          serviceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
-          tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
-          tfStateStorageAccountName: vhinfracore${{ parameters.environment }}tf
+          serviceConnection: DTS-SHAREDSERVICES-${{ env }}-Video Hearings
+          tfStateResourceGroup: vh-infra-core-${{ lower(env) }}-tf
+          tfStateStorageAccountName: vhinfracore${{ lower(env) }}tf
 
-- stage: Apply_Terraform_Code
-  displayName: 'Apply ${{ parameters.environment }} Terraform Code'
-  dependsOn: Plan_Terraform_Code
-  jobs:
+####################################################
+# Terraform Apply. #################################
+  - stage: Approval_${{ env}}
+    displayName: Wait for Approval
+    dependsOn: Plan_Terraform_Code_${{ env}}
+    jobs:
+    - job: WaitForApproval
+      pool: server
+      displayName: Wait for Approval
+      steps:
+      - task: ManualValidation@0
+        timeoutInMinutes: 1440 
+        inputs:
+          onTimeout: reject
+
+  - stage: Apply_Terraform_Code_${{ env}}
+    displayName: "Terraform Apply ${{ env }}"
+    dependsOn: Approval_${{ env}}
+    jobs:
     - job:
       steps:
       - template: pipeline/terraform-apply.yaml
         parameters:
-          environment: ${{ parameters.environment }}
+          environment: ${{ lower(env) }}
           location: $(location)
           project: $(project)
           tfversion: $(tfversion)
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infra'
-          serviceConnection: DTS-SHAREDSERVICES-${{ parameters.environment }}-Video Hearings
-          tfStateResourceGroup: vh-infra-core-${{ parameters.environment }}-tf
-          tfStateStorageAccountName: vhinfracore${{ parameters.environment }}tf
+          serviceConnection: DTS-SHAREDSERVICES-${{ env }}-Video Hearings
+          tfStateResourceGroup: vh-infra-core-${{ lower(env) }}-tf
+          tfStateStorageAccountName: vhinfracore${{ lower(env) }}tf
