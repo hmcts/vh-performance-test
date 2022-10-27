@@ -30,14 +30,14 @@ resource "azurerm_network_security_group" "perf_test" {
   location            = azurerm_resource_group.perf_test.location
 
   security_rule {
-    name                       = "allow-rdp"
-    priority                   = 200
+    name                       = "DenyAll"
+    priority                   = 4096
     direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_address_prefix      = "*"
+    access                     = "Deny"
+    protocol                   = "*"
     source_port_range          = "*"
-    destination_port_range     = "3389"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 
