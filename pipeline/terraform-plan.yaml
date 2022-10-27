@@ -120,5 +120,5 @@ steps:
     displayName: 'Publish Plan Artifact'
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: '$(Build.BuildId)-tfplan'
+      ArtifactName: "${{ lower(parameters.environment) }}-$(Build.BuildId)-tfplan"
       publishLocation: 'Container'

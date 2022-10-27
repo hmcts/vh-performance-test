@@ -28,12 +28,12 @@ steps:
   - task: DownloadBuildArtifacts@0
     displayName: 'Download Plan Artifact'
     inputs:
-      artifactName: '$(Build.BuildId)-tfplan'
+      artifactName: "${{ lower(parameters.environment) }}-$(Build.BuildId)-tfplan"
 
   - task: ExtractFiles@1
     displayName: 'Extract Terraform Plan Artifact'
     inputs:
-      archiveFilePatterns: '$(System.ArtifactsDirectory)/$(Build.BuildId)-tfplan/$(Build.BuildId).zip'
+      archiveFilePatterns: '$(System.ArtifactsDirectory)/${{ lower(parameters.environment) }}-$(Build.BuildId)-tfplan/$(Build.BuildId).zip'
       destinationFolder: '$(System.DefaultWorkingDirectory)/'
       cleanDestinationFolder: false
 
