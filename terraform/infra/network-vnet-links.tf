@@ -1,7 +1,7 @@
 locals {
-  domain_env            = var.environment == "stg" ? "staging." : "${var.environment}."
-  private_dns_zone      = "${local.domain_env}platform.hmcts.net"
-  private_dns_zone_rg   = "core-infra-intsvc-rg"
+  domain_env          = var.environment == "stg" ? "staging." : "${var.environment}."
+  private_dns_zone    = "${local.domain_env}platform.hmcts.net"
+  private_dns_zone_rg = "core-infra-intsvc-rg"
 }
 
 data "azurerm_private_dns_zone" "perf_test" {
