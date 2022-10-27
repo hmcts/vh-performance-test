@@ -5,7 +5,7 @@ resource "azurerm_public_ip" "perf_test" {
   resource_group_name = azurerm_resource_group.perf_test.name
   location            = azurerm_resource_group.perf_test.location
   allocation_method   = "Static"
-  domain_name_label   = "hmcts-vh-perf-${count.index + 1}"
+  domain_name_label   = "hmcts-vh-performance-test-${count.index + 1}"
 
   tags = local.common_tags
 }
