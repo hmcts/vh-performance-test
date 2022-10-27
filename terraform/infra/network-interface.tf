@@ -11,6 +11,7 @@ resource "azurerm_network_interface" "perf_test" {
     name                          = "perf_testConfiguration"
     subnet_id                     = azurerm_subnet.perf_test.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.perf_test[count.index].id
   }
 
   tags = local.common_tags
