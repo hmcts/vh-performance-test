@@ -25,7 +25,7 @@ module "vm_automation" {
   resource_group_name     = azurerm_resource_group.perf_test.name
 
   vm_names = [
-    for wowza_vm in azurerm_linux_virtual_machine.wowza : wowza_vm.name
+    for vm in azurerm_windows_virtual_machine.perf_test : vm.name
   ]
 
   mi_principal_id = azurerm_user_assigned_identity.perf_test_automation_account_mi.principal_id
