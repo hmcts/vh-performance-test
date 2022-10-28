@@ -51,7 +51,14 @@ steps:
       backendAzureRmStorageAccountSku: Standard_LRS
       backendAzureRmContainerName: tfstate
       backendAzureRmKey: '${{ parameters.location }}/${{ parameters.project }}/${{ lower(parameters.environment) }}/terraform.tfstate'
-      
+
+  - ${{ if eq(parameters.env, 'stg') }}:
+  - template:  templates\Azure\Common\unlock-resource-group.yml@templates
+    parameters:
+      subscriptionName:  ${{ parameters.serviceConnection }}
+      resourceGroupName: "vh-perf-test-stg"
+      lockName: "stg-lock"
+
   - task: TerraformCLI@0
     displayName: Terraform Apply
     inputs:
