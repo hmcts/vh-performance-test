@@ -50,6 +50,18 @@ variable "vm_password" {
   type = string
 }
 
+variable "schedules" {
+  type = list(object({
+    name      = string
+    frequency = string
+    interval  = number
+    run_time  = string
+    start_vm  = bool
+  }))
+  default     = []
+  description = "List of Schedules to trigger the VM turn on and/or off."
+}
+
 # Networking Client Details
 variable "network_client_id" {
   description = "Client ID of the GlobalNetworkPeering SP"
