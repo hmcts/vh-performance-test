@@ -30,6 +30,18 @@ resource "azurerm_network_security_group" "perf_test" {
   location            = azurerm_resource_group.perf_test.location
 
   security_rule {
+    name                       = "AllowRDPfromVPN"
+    priority                   = 4090
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    source_address_prefix      = "10.99.19.0/24"
+    destination_port_range     = "3389"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
     name                       = "DenyAll"
     priority                   = 4096
     direction                  = "Inbound"
