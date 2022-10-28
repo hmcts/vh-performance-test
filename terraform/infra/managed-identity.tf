@@ -10,7 +10,7 @@ resource "azurerm_user_assigned_identity" "perf_test_automation_account_mi" {
 
 
 resource "azurerm_role_definition" "virtual_machine_control" {
-  name        = "Virtual-Machine-Control-${var.environment}"
+  name        = "VM-Control_${azurerm_resource_group.perf_test.name}"
   scope       = azurerm_resource_group.perf_test.id
   description = "Custom Role for controlling virtual machines"
   permissions {
