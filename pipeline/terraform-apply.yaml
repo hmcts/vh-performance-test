@@ -52,7 +52,7 @@ steps:
       backendAzureRmContainerName: tfstate
       backendAzureRmKey: '${{ parameters.location }}/${{ parameters.project }}/${{ lower(parameters.environment) }}/terraform.tfstate'
 
-  - ${{ if eq(parameters.env, 'stg') }}:
+  - ${{ if eq(parameters.environment, 'stg') }}:
   - template:  templates\Azure\Common\unlock-resource-group.yml@templates
     parameters:
       subscriptionName:  ${{ parameters.serviceConnection }}
