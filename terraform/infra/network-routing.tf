@@ -22,4 +22,16 @@ resource "azurerm_subnet_route_table_association" "perf_test" {
   route_table_id = azurerm_route_table.perf_test.id
 }
 
+data "azurerm_route_table" "aks_appgw_route_table" {
+  name                = "aks-${var.environment}-appgw-route-table"
+  resource_group_name = "ss-${var.environment}-network-rg"
+}
 
+resource "azurerm_route" "vh_perf_test" {
+  name                   = local.service_name
+  resource_group_name    = data.azurerm_route_table.aks_appgw_route_table.resource_group_name
+  route_table_name       = data.azurerm_route_table.aks_appgw_route_table.name
+  address_prefix         = element(var.address_space, 0)
+  next_hop_type          = "VirtualAppliance"
+  next_hop_in_ip_address = var.environment == "dev" ? "10.11.72.36" : "10.11.8.36"
+}
