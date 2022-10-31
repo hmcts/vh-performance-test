@@ -14,7 +14,7 @@ resource "azurerm_automation_account" "vm-start-stop" {
 }
 
 module "vm_automation" {
-  source = "git::https://github.com/hmcts/cnp-module-automation-runbook-start-stop-vm"
+  source = "git::https://github.com/hmcts/cnp-module-automation-runbook-start-stop-vm?ref=adding-days"
 
   product                 = "vh-perf-test"
   env                     = var.environment
