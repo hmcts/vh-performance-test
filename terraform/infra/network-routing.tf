@@ -23,13 +23,13 @@ resource "azurerm_subnet_route_table_association" "perf_test" {
 }
 
 data "azurerm_route_table" "aks_appgw_route_table" {
-  count               = var.env == "stg" ? 1 : 0
+  count               = var.environment == "stg" ? 1 : 0
   name                = "aks-${var.environment}-appgw-route-table"
   resource_group_name = "ss-${var.environment}-network-rg"
 }
 
 resource "azurerm_route" "vh_perf_test" {
-  count                  = var.env == "stg" ? 1 : 0
+  count                  = var.environment == "stg" ? 1 : 0
   name                   = local.service_name
   resource_group_name    = data.azurerm_route_table.aks_appgw_route_table[0].resource_group_name
   route_table_name       = data.azurerm_route_table.aks_appgw_route_table[0].name
