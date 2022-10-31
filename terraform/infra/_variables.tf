@@ -50,6 +50,10 @@ variable "vm_password" {
   type = string
 }
 
+variable "route_table" {
+  description = "Route Table routes"
+}
+
 # Networking Client Details
 variable "network_client_id" {
   description = "Client ID of the GlobalNetworkPeering SP"
