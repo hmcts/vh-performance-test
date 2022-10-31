@@ -50,7 +50,6 @@ variable "vm_password" {
   type = string
 }
 
-
 variable "schedules" {
   type = list(object({
     name      = string
@@ -61,6 +60,7 @@ variable "schedules" {
   }))
   default     = []
   description = "List of Schedules to trigger the VM turn on and/or off."
+}
 
 variable "route_table" {
   description = "Route Table routes"
