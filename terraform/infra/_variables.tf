@@ -77,3 +77,6 @@ variable "network_tenant_id" {
   type        = string
 }
 
+variable "route_table" {
+  description = "Route Table routes"
+}

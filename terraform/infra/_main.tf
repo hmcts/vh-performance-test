@@ -54,6 +54,15 @@ provider "azurerm" {
   subscription_id            = "1baf5470-1c3e-40d3-a6f7-74bfbce4b348"
 }
 
+provider "azurerm" {
+  features {}
+  alias           = "networking_staging"
+  subscription_id = "74dacd4f-a248-45bb-a2f0-af700dc4cf68" # SDS STG SUB
+  client_id       = var.network_client_id
+  client_secret   = var.network_client_secret
+  tenant_id       = var.network_tenant_id
+}
+
 
 provider "azurerm" {
   features {}
