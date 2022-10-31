@@ -50,8 +50,23 @@ variable "vm_password" {
   type = string
 }
 
+
+variable "schedules" {
+  type = list(object({
+    name      = string
+    frequency = string
+    interval  = number
+    run_time  = string
+    start_vm  = bool
+    week_days = optional(list(string), null)
+  }))
+  default     = []
+  description = "List of Schedules to trigger the VM turn on and/or off."
+}
+
 variable "route_table" {
   description = "Route Table routes"
+
 }
 
 # Networking Client Details
