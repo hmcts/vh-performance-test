@@ -22,3 +22,15 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
 
   tags = local.common_tags
 }
+
+resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link_demo" {
+  provider = azurerm.private-endpoint-dns
+
+  name                  = "${azurerm_virtual_network.perf_test.name}-link"
+  resource_group_name   = local.private_dns_zone_rg
+  private_dns_zone_name = "demo.platform.hmcts.net"
+  virtual_network_id    = azurerm_virtual_network.perf_test.id
+  registration_enabled  = false
+
+  tags = local.common_tags
+}
