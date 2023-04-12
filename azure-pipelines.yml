@@ -17,6 +17,7 @@ parameters:
     default: 
       - Dev
       - Stg
+      - Demo
 
 variables:
   - group: vh-perf-test
