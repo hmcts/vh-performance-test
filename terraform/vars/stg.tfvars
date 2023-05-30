@@ -1,7 +1,7 @@
 
 location          = "UK South"
 address_space     = ["10.100.197.224/28"]
-vm_size           = "Standard_D8_v5"
+vm_size           = "Standard_D8_v5" //Current exemption for this SKU. Should be "Standard_D8ds_v5"
 vm_instance_count = 2
 
 route_table = [
