@@ -1,6 +1,6 @@
 
 location          = "UK South"
-address_space     = ["10.23.255.208/28"]
+address_space     = ["10.50.10.80/28"]
 vm_size           = "Standard_D8_v5"
 vm_instance_count = 2
 
