@@ -1,5 +1,5 @@
 locals {
-  peering_prod_vnets        = var.environment == "prod" || var.environment == "stg" ? ["hmcts-hub-prod-int", "ukw-hub-prod-int"] : []
+  peering_prod_vnets        = var.environment == "prod" || var.environment == "stg" ? ["hmcts-hub-prod-int"] : []
   peering_prod_subscription = "0978315c-75fe-4ada-9d11-1eb5e0e0b214"
 }
 
