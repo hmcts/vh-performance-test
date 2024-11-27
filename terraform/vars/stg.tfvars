@@ -29,3 +29,5 @@ route_table = [
     next_hop_in_ip_address = "10.11.8.36"
   }
 ]
+
+vm_names_for_automation = []

@@ -23,10 +23,6 @@ module "vm_automation" {
   tags                    = local.common_tags
   schedules               = var.schedules
   resource_group_name     = azurerm_resource_group.perf_test.name
-
-  vm_names = [
-    for vm in azurerm_windows_virtual_machine.perf_test : vm.name
-  ]
-
-  mi_principal_id = azurerm_user_assigned_identity.perf_test_automation_account_mi.principal_id
+  vm_names                = var.vm_names_for_automation
+  mi_principal_id         = azurerm_user_assigned_identity.perf_test_automation_account_mi.principal_id
 }
