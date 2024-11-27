@@ -87,5 +87,5 @@ variable "network_tenant_id" {
 variable "vm_names_for_automation" {
   description = "VMs to include in the automation runbook"
   type        = list(string)
-  default     = null
+  default     = []
 }
