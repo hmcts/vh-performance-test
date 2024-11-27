@@ -16,7 +16,7 @@ resource "azurerm_subnet" "perf_test" {
 
   # enforce_private_link_endpoint_network_policies = true
   # enforce_private_link_service_network_policies  = true
-  private_link_service_network_policies_enabled = true
+  private_link_service_network_policies_enabled = false
   # private_endpoint_network_policies              = "Enabled"
 }
 
