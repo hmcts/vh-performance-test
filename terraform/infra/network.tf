@@ -14,8 +14,10 @@ resource "azurerm_subnet" "perf_test" {
   virtual_network_name = azurerm_virtual_network.perf_test.name
   address_prefixes     = var.address_space
 
-  enforce_private_link_endpoint_network_policies = true
-  enforce_private_link_service_network_policies  = true
+  # enforce_private_link_endpoint_network_policies = true
+  # enforce_private_link_service_network_policies  = true
+  private_link_service_network_policies_enabled  = true
+  private_endpoint_network_policies              = "Enabled"
 }
 
 resource "azurerm_subnet_network_security_group_association" "perf_test" {
