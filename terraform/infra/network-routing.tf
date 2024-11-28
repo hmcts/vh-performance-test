@@ -2,7 +2,7 @@ resource "azurerm_route_table" "perf_test" {
   name                          = local.service_name
   location                      = azurerm_resource_group.perf_test.location
   resource_group_name           = azurerm_resource_group.perf_test.name
-  disable_bgp_route_propagation = false
+  bgp_route_propagation_enabled = true
 
   tags = local.common_tags
 
